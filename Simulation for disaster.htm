@@ -1,0 +1,200 @@
+<div>
+  <div *ngIf="disasterService.state.wizardStep == WizardSteps.DisasterChoice">
+    <h4 class="wizard-step-title">Choose the area you would like to simulate</h4>
+    <button class="btn btn-lg btn-danger btn-select-disaster" (click)="chooseDisaster(DisasterTaxonomies.Flood)">
+      Chennai !!
+    </button>
+    <button class="btn btn-lg btn-warning btn-select-disaster" (click)="chooseDisaster(DisasterTaxonomies.Earthquake)">
+      Banglore !!
+    </button>
+    <button class="btn btn-lg btn-danger btn-select-disaster" (click)="chooseDisaster(DisasterTaxonomies.Tsunami)">
+      Mumbai !!
+    </button>
+    <button class="btn btn-lg btn-danger btn-select-disaster" (click)="chooseDisaster(DisasterTaxonomies.Hurricane)">
+      Hyderabad !!
+    </button>
+  </div>
+  <hr>
+
+
+<div>
+  <div *ngIf="disasterService.state.wizardStep == WizardSteps.DisasterChoice">
+    <h4 class="wizard-step-title">What would you like to simulate?</h4>
+    <button class="btn btn-lg btn-danger btn-select-disaster" (click)="chooseDisaster(DisasterTaxonomies.Flood)">
+      Flood !!
+    </button>
+    <button class="btn btn-lg btn-warning btn-select-disaster" (click)="chooseDisaster(DisasterTaxonomies.Earthquake)">
+      Earthquake !!
+    </button>
+    <button class="btn btn-lg btn-danger btn-select-disaster" (click)="chooseDisaster(DisasterTaxonomies.Tsunami)">
+      Tsunami !!
+    </button>
+    <button class="btn btn-lg btn-danger btn-select-disaster" (click)="chooseDisaster(DisasterTaxonomies.Hurricane)">
+      Hurricane !!
+    </button>
+  </div>
+
+<div *ngIf="disasterService.state.wizardStep == WizardSteps.InputParameters ||
+              disasterService.state.wizardStep == WizardSteps.Simulation">
+    <form (submit)="fetchMagnitude($event)">
+      <div *ngIf="disasterService.state.chosenDisaster == DisasterTaxonomies.Earthquake">
+        <h4 class="wizard-step-title">Flood</h4>
+        <div class="form-group">
+          <form action="/action_page.php">
+  <label for="fname">Cm Of Rainfall:</label>
+  <input type="text" id="fname" name="fname">
+</form>
+<br>
+<br>
+        <code>
+          Humidity: [
+          <span class="value">{{disasterService.floodParameters.center.lat.toFixed(100)}}</span>,
+          <span class="value">{{disasterService.floodParameters.center.lng.toFixed(8)}}</span>
+          ]
+        </code>
+        <br>
+        <code>
+          Altitude: <span class="value">{{(disasterService.floodParameters.1 millibar/ 10 m).toFixed(4)}} km</span>
+        </code>
+        <br>
+        <code>
+          Intensity: <span class="value">{{utils.toFloat(disasterService.floodParameters.intensity) / 10}}</span>
+        </code>
+        <br>
+        <br>
+  <input type="submit" value="Submit">
+        </div>
+
+
+  <div *ngIf="disasterService.state.wizardStep == WizardSteps.InputParameters ||
+              disasterService.state.wizardStep == WizardSteps.Simulation">
+    <form (submit)="fetchMagnitude($event)">
+      <div *ngIf="disasterService.state.chosenDisaster == DisasterTaxonomies.Earthquake">
+        <h4 class="wizard-step-title">Earthquake</h4>
+        <div class="form-group">
+          <label for="intensityRange">Earthquake Intensity</label>
+          <input type="range" class="form-control custom-range" id="intensityRange" name="intensity"
+                 [(ngModel)]="disasterService.earthquakeParameters.intensity"
+                 (change)="disasterService.updateEarthquakeIntensity($event.target.value)">
+                 
+        </div>
+        <br>
+        <code>
+          Epicenter: [
+          <span class="value">{{disasterService.earthquakeParameters.center.lat.toFixed(8)}}</span>,
+          <span class="value">{{disasterService.earthquakeParameters.center.lng.toFixed(8)}}</span>
+          ]
+        </code>
+        <br>
+        <code>
+          Radius: <span class="value">{{(disasterService.earthquakeParameters.radius / 1000).toFixed(4)}} km</span>
+        </code>
+        <br>
+        <code>
+          Intensity: <span class="value">{{utils.toFloat(disasterService.earthquakeParameters.intensity) / 10}}</span>
+        </code>
+        <br>
+                 <br>
+                 <input type="submit" value="Submit">
+      </div>
+      <div *ngIf="disasterService.state.chosenDisaster == DisasterTaxonomies.Hurricane">
+        <h4 class="wizard-step-title">Hurricane</h4>
+        <div class="form-group">
+          <label for="startIntensityRange">Start Intensity</label>
+          <input type="range" class="form-control custom-range" id="startIntensityRange" name="startIntensity"
+                 [(ngModel)]="disasterService.hurricaneParameters.start.intensity"
+                 (change)="disasterService.updateHurricaneStartIntensity($event.target.value)">
+        </div>
+        <div class="form-group">
+          <label for="endIntensityRange">End Intensity</label>
+          <input type="range" class="form-control custom-range" id="endIntensityRange" name="endIntensity"
+                 [(ngModel)]="disasterService.hurricaneParameters.end.intensity"
+                 (change)="disasterService.updateHurricaneEndIntensity($event.target.value)">
+
+        </div>
+        <br>
+        <code>
+          Start Center: [
+          <span class="value">{{disasterService.hurricaneParameters.start.center.lat.toFixed(7)}}</span>,
+          <span class="value">{{disasterService.hurricaneParameters.start.center.lng.toFixed(7)}}</span>
+          ]
+        </code>
+        <br>
+        <code>
+          Start Radius:
+          <span class="value">{{(disasterService.hurricaneParameters.start.radius / 1000).toFixed(4)}}km</span>
+        </code>
+        <br>
+        <code>
+          Start Intensity:
+          <span class="value">{{utils.toFloat(disasterService.hurricaneParameters.start.intensity) / 10}}</span>
+        </code>
+        <br>
+        <code>
+          End Center: [
+          <span class="value">{{disasterService.hurricaneParameters.end.center.lat.toFixed(7)}}</span>,
+          <span class="value">{{disasterService.hurricaneParameters.end.center.lng.toFixed(7)}}</span>
+          ]
+        </code>
+        <br>
+        <code>
+          End Radius:
+          <span class="value">{{(disasterService.hurricaneParameters.end.radius / 1000).toFixed(4)}}km</span>
+        </code>
+        <br>
+        <code>
+          End Intensity:
+          <span class="value">{{utils.toFloat(disasterService.hurricaneParameters.end.intensity) / 10}}</span>
+        </code>
+        <br>
+                 <br>
+                 <input type="submit" value="Submit">
+      </div>
+      <div *ngIf="disasterService.state.wizardStep == WizardSteps.InputParameters ||
+              disasterService.state.wizardStep == WizardSteps.Simulation">
+    <form (submit)="fetchMagnitude($event)">
+      <div *ngIf="disasterService.state.chosenDisaster == DisasterTaxonomies.Earthquake">
+        <h4 class="wizard-step-title">Tsunami</h4>
+        <div class="form-group">
+          <form action="/action_page.php">
+  <label for="fname">Tide Gauge:</label>
+  <input type="text" id="fname" name="fname">
+</form>
+<br>
+<br>
+        
+  <input type="submit" value="Submit">
+        </div>
+      <hr>
+      <div class="action-buttons">
+        <button type="button" class="btn btn-outline-secondary" (click)="goBack()">Previous</button>
+        <button type="button" class="btn btn-success pull-right" (click)="simulateDisaster()">
+          Start Simulation!
+        </button>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="disasterService.state.wizardStep == WizardSteps.Results">
+    <h4 class="text-muted text-center">Most Vulnerable Cities:</h4>
+    <div class="list-group simulation-stats">
+      <div class="list-group-item d-flex justify-content-between"
+           *ngFor="let row of disasterService.simulationResponse.stats">
+        <div>
+          <h5>{{row.city}}</h5>
+          <div>Population: <b>{{utils.toPrintableInt(row.population)}}</b></div>
+        </div>
+        <div>
+          <div class="vulnerability-label">Vulnerability</div>
+          <div class="vulnerability-score"
+               [style.color]="utils.percentageToColor(row.vulnerability, 40)">
+            {{utils.toPrintableFloat(row.vulnerability)}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="action-buttons">
+      <button type="button" class="btn btn-primary" (click)="goBack(3)">Start Over</button>
+    </div>
+  </div>
+</div>
